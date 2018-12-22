@@ -16,7 +16,14 @@ _global_script_class_icons={
 [application]
 
 config/name="godot_hero"
+run/main_scene="res://game_scene.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/stretch/aspect="keep_height"
 
 [rendering]
 
