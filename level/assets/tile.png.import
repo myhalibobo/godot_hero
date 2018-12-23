@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/default.png-7f7e0f7d68eead38c65bbb8e29412da7.stex"
+path="res://.import/tile.png-c3c4dbf3fc31ca728535fcf11d920b51.stex"
 
 [deps]
 
-source_file="res://weapon/default.png"
-dest_files=[ "res://.import/default.png-7f7e0f7d68eead38c65bbb8e29412da7.stex" ]
+source_file="res://level/assets/tile.png"
+dest_files=[ "res://.import/tile.png-c3c4dbf3fc31ca728535fcf11d920b51.stex" ]
 
 [params]
 
@@ -17,7 +17,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

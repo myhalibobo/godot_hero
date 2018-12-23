@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://actor/input_state_manage.gd" type="Script" id=1]
+
+[node name="input_state_manage" type="Node"]
+script = ExtResource( 1 )
+
