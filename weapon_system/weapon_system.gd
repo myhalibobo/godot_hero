@@ -23,8 +23,8 @@ func slash():
 	cur_weapon.slash()
 	pass
 
-func shoot():
-	cur_weapon.shoot()
+func shoot(direction_vec,p_rotation):
+	cur_weapon.shoot(direction_vec,p_rotation)
 	pass
 
 func shoot_with_target_pos(target_pos):

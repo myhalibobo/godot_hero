@@ -1,19 +1,19 @@
 [gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://actor/player/player.gd" type="Script" id=1]
+[ext_resource path="res://actor/enemies/zombie1.gd" type="Script" id=1]
 [ext_resource path="res://actor/animations.gd" type="Script" id=2]
 [ext_resource path="res://body.png" type="Texture" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://weapon_system/weapon/assets/gun2.png" type="Texture" id=5]
 [ext_resource path="res://actor/state_machine/state_machine.tscn" type="PackedScene" id=6]
-[ext_resource path="res://actor/state_machine/state/idle.gd" type="Script" id=7]
-[ext_resource path="res://actor/state_machine/state/walk.gd" type="Script" id=8]
-[ext_resource path="res://actor/state_machine/state/jump.gd" type="Script" id=9]
-[ext_resource path="res://actor/state_machine/state/fall.gd" type="Script" id=10]
-[ext_resource path="res://actor/state_machine/state/player_attack.gd" type="Script" id=11]
-[ext_resource path="res://actor/input_state_manage.tscn" type="PackedScene" id=12]
-[ext_resource path="res://weapon_system/weapon_system.tscn" type="PackedScene" id=13]
-[ext_resource path="res://weapon_system/weapon/gun2.tscn" type="PackedScene" id=14]
+[ext_resource path="res://actor/state_machine/state_machine.gd" type="Script" id=7]
+[ext_resource path="res://actor/state_machine/state/idle.gd" type="Script" id=8]
+[ext_resource path="res://actor/state_machine/state/walk.gd" type="Script" id=9]
+[ext_resource path="res://actor/state_machine/state/jump.gd" type="Script" id=10]
+[ext_resource path="res://actor/state_machine/state/fall.gd" type="Script" id=11]
+[ext_resource path="res://actor/state_machine/state/player_attack.gd" type="Script" id=12]
+[ext_resource path="res://actor/input_state_manage.tscn" type="PackedScene" id=13]
+[ext_resource path="res://actor/input_state_manage.gd" type="Script" id=14]
 
 [sub_resource type="Animation" id=1]
 
@@ -367,16 +367,15 @@ height = 65.205
 
 extents = Vector2( 9.59, 10.01 )
 
-[node name="player" type="KinematicBody2D"]
-collision_layer = 2
+[node name="zombie1" type="KinematicBody2D"]
+collision_layer = 4
 script = ExtResource( 1 )
-is_role = true
 
 [node name="animations" type="Node2D" parent="."]
 editor/display_folded = true
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 2 )
-actor_path = NodePath("../weapon_system/gun2")
+actor_path = NodePath("")
 
 [node name="animation_action" type="AnimationPlayer" parent="animations"]
 anims/idle = SubResource( 1 )
@@ -384,7 +383,7 @@ anims/jump = SubResource( 2 )
 anims/walk = SubResource( 3 )
 
 [node name="leg1" type="Sprite" parent="animations"]
-modulate = Color( 0.196078, 0.203922, 0.654902, 1 )
+self_modulate = Color( 0.207843, 0.690196, 0.0901961, 1 )
 position = Vector2( 1.90735e-006, -85.0204 )
 rotation = 0.428687
 scale = Vector2( 0.697674, 2.03795 )
@@ -399,18 +398,20 @@ scale = Vector2( 0.255814, 0.333333 )
 texture = ExtResource( 3 )
 
 [node name="head" type="Sprite" parent="animations/neck"]
-position = Vector2( -3.13151, -4.66919 )
+self_modulate = Color( 0, 0.933333, 0.407843, 1 )
+position = Vector2( -0.429296, 1.08905 )
 scale = Vector2( 3.93913, 3.02306 )
 texture = ExtResource( 4 )
 offset = Vector2( 0.306244, -25.724 )
 
 [node name="body" type="Sprite" parent="animations"]
+self_modulate = Color( 0.172549, 0.890196, 0.2, 1 )
 position = Vector2( -1.81515e-006, -122.185 )
 scale = Vector2( 0.949603, 2.04444 )
 texture = ExtResource( 3 )
 
 [node name="leg2" type="Sprite" parent="animations"]
-self_modulate = Color( 0.0941176, 0.164706, 0.615686, 1 )
+self_modulate = Color( 0.207843, 0.690196, 0.0901961, 1 )
 position = Vector2( 0.149506, -85 )
 rotation = -0.428687
 scale = Vector2( 0.697674, 2.04444 )
@@ -439,30 +440,28 @@ shape = SubResource( 4 )
 position = Vector2( 0, -97.62 )
 shape = SubResource( 5 )
 
-[node name="state_machine" parent="." instance=ExtResource( 6 )]
+[node name="state_machine" type="Node" parent="." instance=ExtResource( 6 )]
+script = ExtResource( 7 )
 actor = NodePath(".")
 
 [node name="idle" type="Node" parent="state_machine"]
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="walk" type="Node" parent="state_machine"]
-script = ExtResource( 8 )
+script = ExtResource( 9 )
 speed = 550
 
 [node name="jump" type="Node" parent="state_machine"]
-script = ExtResource( 9 )
-
-[node name="fall" type="Node" parent="state_machine"]
 script = ExtResource( 10 )
 
-[node name="attack" type="Node" parent="state_machine"]
+[node name="fall" type="Node" parent="state_machine"]
 script = ExtResource( 11 )
 
-[node name="input_state_manage" parent="." instance=ExtResource( 12 )]
+[node name="attack" type="Node" parent="state_machine"]
+script = ExtResource( 12 )
 
-[node name="weapon_system" parent="." instance=ExtResource( 13 )]
+[node name="input_state_manage" type="Node" parent="." instance=ExtResource( 13 )]
+script = ExtResource( 14 )
 
-[node name="gun2" parent="weapon_system" instance=ExtResource( 14 )]
-position = Vector2( 0.295128, -71.7483 )
-scale = Vector2( 2, 2 )
+[node name="detect_info" type="Node2D" parent="."]
 

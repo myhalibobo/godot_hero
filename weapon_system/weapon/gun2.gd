@@ -7,17 +7,20 @@ func _ready():
 	bullet_node = game_scene.get_node("bullet_node")
 
 
-func shoot():
-	emit_bullet()
+#func shoot(direction_vec,p_rotation):
+#	emit_bullet(direction_vec , p_rotation)
+#	pass
+func shoot(direction_vec,p_rotation):
+	emit_bullet(direction_vec , p_rotation)
 	pass
 
-func emit_bullet():
+func emit_bullet(direction_vec,p_rotation):
 	print("发射子弹")
 	var gun2_bullet = preload("../projectile/gun2_bullet.tscn").instance()
 	bullet_node.add_child(gun2_bullet)
-	
+
 	var launch_pos = get_launch_pos()
 	gun2_bullet.position = launch_pos
-	var direction_vec = Vector2(cos(rotation),sin(rotation))
-	gun2_bullet.rotation = rotation
+
+	gun2_bullet.rotation = p_rotation
 	gun2_bullet.shoot(direction_vec)

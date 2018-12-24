@@ -11,5 +11,5 @@ enum {
 func attack():
 	pass
 
-func shoot():
+func shoot(direction_vec,p_rotation):
 	pass
