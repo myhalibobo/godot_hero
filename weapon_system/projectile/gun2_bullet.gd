@@ -13,15 +13,7 @@ func shoot(_direction_vec):
 func _process(delta):
 	velocity = direction_vec * speed
 	move_and_slide(velocity)
-	pass
+	var slide_num = get_slide_count()
+	if slide_num > 0:
+		queue_free()
 
-func _on_gun2_bullet_body_entered(body):
-	queue_free()
-
-
-#func _on_Area2D_body_entered(body):
-#	queue_free()
-
-
-func _on_area_body_entered(body):
-	queue_free()

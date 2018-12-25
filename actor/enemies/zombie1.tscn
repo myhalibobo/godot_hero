@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://actor/enemies/zombie1.gd" type="Script" id=1]
 [ext_resource path="res://actor/animations.gd" type="Script" id=2]
@@ -363,17 +363,20 @@ tracks/8/keys = {
 
 height = 65.205
 
-[sub_resource type="RectangleShape2D" id=5]
-
-extents = Vector2( 9.59, 10.01 )
-
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=5]
 
 radius = 343.3
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=6]
 
 radius = 44.1128
+
+[sub_resource type="CircleShape2D" id=7]
+
+
+[sub_resource type="RectangleShape2D" id=8]
+
+extents = Vector2( 10, 1.152 )
 
 [node name="zombie1" type="KinematicBody2D"]
 collision_layer = 4
@@ -398,14 +401,14 @@ texture = ExtResource( 3 )
 offset = Vector2( -0.157, 18.852 )
 
 [node name="neck" type="Sprite" parent="animations"]
-editor/display_folded = true
-self_modulate = Color( 0.184314, 0.411765, 0.678431, 1 )
+self_modulate = Color( 0.282353, 0.678431, 0.184314, 1 )
 position = Vector2( 0.10982, -170.363 )
-scale = Vector2( 0.255814, 0.333333 )
+scale = Vector2( 0.256, 0.673 )
 texture = ExtResource( 3 )
 
 [node name="head" type="Sprite" parent="animations/neck"]
-self_modulate = Color( 0, 0.933333, 0.407843, 1 )
+visible = false
+self_modulate = Color( 0.976471, 0.160784, 0.0745098, 1 )
 position = Vector2( -0.429296, 1.08905 )
 scale = Vector2( 3.93913, 3.02306 )
 texture = ExtResource( 4 )
@@ -450,10 +453,6 @@ texture = ExtResource( 5 )
 position = Vector2( 0, -43.03 )
 shape = SubResource( 4 )
 
-[node name="head_shape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -97.62 )
-shape = SubResource( 5 )
-
 [node name="state_machine" parent="." instance=ExtResource( 6 )]
 editor/display_folded = true
 actor = NodePath(".")
@@ -463,7 +462,7 @@ script = ExtResource( 7 )
 
 [node name="walk" type="Node" parent="state_machine"]
 script = ExtResource( 8 )
-speed = 550
+speed = 100
 
 [node name="jump" type="Node" parent="state_machine"]
 script = ExtResource( 9 )
@@ -477,26 +476,28 @@ script = ExtResource( 11 )
 [node name="input_state_manage" parent="." instance=ExtResource( 12 )]
 
 [node name="detect_info" type="Node2D" parent="."]
+editor/display_folded = true
+visible = false
 script = ExtResource( 13 )
 
-[node name="normal" type="Node2D" parent="detect_info"]
+[node name="nor_wander" type="Node2D" parent="detect_info"]
 
-[node name="rayc_floor_left" type="RayCast2D" parent="detect_info/normal"]
+[node name="rayc_floor_left" type="RayCast2D" parent="detect_info/nor_wander"]
 position = Vector2( -7.70013, -9.24017 )
 enabled = true
 cast_to = Vector2( 0, 15.42 )
 
-[node name="rayc_floor_right" type="RayCast2D" parent="detect_info/normal"]
+[node name="rayc_wall_right" type="RayCast2D" parent="detect_info/nor_wander"]
+position = Vector2( 8.94327, -8.96278 )
+enabled = true
+cast_to = Vector2( 15, 0 )
+
+[node name="rayc_floor_right" type="RayCast2D" parent="detect_info/nor_wander"]
 position = Vector2( 8.94327, -8.408 )
 enabled = true
 cast_to = Vector2( 0, 15.42 )
 
-[node name="rayc_wall_left" type="RayCast2D" parent="detect_info/normal"]
-position = Vector2( 8.94327, -8.408 )
-enabled = true
-cast_to = Vector2( 15, 0 )
-
-[node name="rayc_wall_right" type="RayCast2D" parent="detect_info/normal"]
+[node name="rayc_wall_left" type="RayCast2D" parent="detect_info/nor_wander"]
 position = Vector2( -8.25491, -8.96278 )
 enabled = true
 cast_to = Vector2( -15, 0 )
@@ -505,7 +506,7 @@ cast_to = Vector2( -15, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detect_info/area2d_see"]
 position = Vector2( 0.583977, -44.6744 )
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 
 [node name="rayc_check_enemy" type="RayCast2D" parent="detect_info"]
 
@@ -513,9 +514,35 @@ shape = SubResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detect_info/area2d_attack_range"]
 position = Vector2( 0, -53.0737 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="ai" type="Node" parent="."]
 script = ExtResource( 14 )
 actor_path = NodePath("..")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2( 0, -88 )
+node_a = NodePath("..")
+node_b = NodePath("../RigidBody2D")
+bias = 0.1
+disable_collision = false
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2( 0.583977, -100 )
+collision_layer = 4
+collision_mask = 5
+
+[node name="icon" type="Sprite" parent="RigidBody2D"]
+self_modulate = Color( 0.27451, 0.796078, 0.129412, 1 )
+position = Vector2( 0, 1.93 )
+scale = Vector2( 0.421875, 0.421875 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2( 0, 1.33 )
+shape = SubResource( 7 )
+
+[node name="head_shape" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -87.018 )
+shape = SubResource( 8 )
 

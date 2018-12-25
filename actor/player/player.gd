@@ -10,7 +10,6 @@ onready var camera = $camera
 func _ready():
 	hand = animations.get_animation_hand_node()
 	cur_weapon = weapon_system.get_cur_weapon()
-	print(cur_weapon)
 	
 func _input(event):
 	if event is InputEventMouse:
@@ -26,10 +25,7 @@ func _input(event):
 			pass
 		else:
 			emit_direction = emit_direction *-1
-			print("emit_direction:" , emit_direction)
 			scale.x = abs(scale.x) * -1 
-		
-	pass
 
 func _process(delta):
 	cur_weapon.rotation = hand.rotation
