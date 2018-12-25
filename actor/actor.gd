@@ -21,7 +21,7 @@ var MAX_FALL_SPEED = 2000
 var FLOOR_NORMAL = Vector2(0, -1)
 var WALK_SPEEP
 var FALL_THRESHOLD = 100
-
+var HP = 100
 func _init_data():
 	pass
 
@@ -66,6 +66,12 @@ func fall():
 
 func attack():
 	state_machine.change_state("attack")
+
+func reduce_blood(reduce_value):
+	HP -= reduce_value
+	if HP < 0:
+		HP = 0
+	pass
 
 func get_cur_state():
 	return state_machine.state

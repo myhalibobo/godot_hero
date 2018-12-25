@@ -7,4 +7,9 @@ func _ready():
 
 func _process(delta):
 	animations.scale.x = abs(animations.scale.x) * direction
-	ai.hover_move()
+#	ai.hover_move()
+	if HP == 0:
+		dead()
+
+func dead():
+	queue_free()

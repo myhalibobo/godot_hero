@@ -16,7 +16,7 @@ func shoot(direction_vec,p_rotation):
 
 func emit_bullet(direction_vec,p_rotation):
 	print("发射子弹")
-	var gun2_bullet = preload("../projectile/gun2_bullet.tscn").instance()
+	var gun2_bullet = preload("../projectile/gun3_bullet.tscn").instance()
 	bullet_node.add_child(gun2_bullet)
 
 	var launch_pos = get_launch_pos()

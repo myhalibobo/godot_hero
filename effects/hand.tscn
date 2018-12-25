@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://body.png" type="Texture" id=1]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+radius = 7.881
+height = 63.5947
+
+[node name="hand" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="body" type="Sprite" parent="CollisionShape2D"]
+self_modulate = Color( 0.215686, 0.823529, 0.14902, 1 )
+position = Vector2( -0.174828, 0 )
+scale = Vector2( 0.343155, 1.77132 )
+texture = ExtResource( 1 )
+

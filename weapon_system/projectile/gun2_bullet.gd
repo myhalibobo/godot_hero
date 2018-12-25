@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var direction_vec
-var speed = 2000
+var speed = 500
 var speed_vec
 var velocity
 func _ready():
@@ -15,5 +15,6 @@ func _process(delta):
 	move_and_slide(velocity)
 	var slide_num = get_slide_count()
 	if slide_num > 0:
+		print("-------------->")
 		queue_free()
 

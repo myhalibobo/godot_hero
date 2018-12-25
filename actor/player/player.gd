@@ -16,7 +16,9 @@ func _input(event):
 		var local_event = make_input_local(event)
 
 		var mouse_postion = local_event.position
-		var angle = mouse_postion.angle_to_point(hand.position)
+		
+		var angle = mouse_postion.angle_to_point(hand.position*animations.scale.x)
+		
 		hand.rotation = angle
 
 		

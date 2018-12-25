@@ -38,7 +38,6 @@ func _ready():
 		
 	if has_node("rayc_check_enemy"):
 		rayc_check_enemy = $rayc_check_enemy
-	
 
 
 func is_left_down_is_air():
