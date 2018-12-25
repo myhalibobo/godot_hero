@@ -15,6 +15,16 @@ _global_script_classes=[ {
 "path": "res://actor/actor.gd"
 }, {
 "base": "Node",
+"class": "AiBase",
+"language": "GDScript",
+"path": "res://actor/ai/ai_base.gd"
+}, {
+"base": "Node",
+"class": "DetectInfo",
+"language": "GDScript",
+"path": "res://actor/detect_info.gd"
+}, {
+"base": "Node",
 "class": "InputStateManage",
 "language": "GDScript",
 "path": "res://actor/input_state_manage.gd"
@@ -31,6 +41,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Actor": "",
+"AiBase": "",
+"DetectInfo": "",
 "InputStateManage": "",
 "StateMachine": "",
 "WeaponSystem": ""

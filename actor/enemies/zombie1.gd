@@ -1,7 +1,8 @@
 extends "../actor.gd"
 
+onready var ai :AiBase= $ai
 func _ready():
 	pass
 
 func _process(delta):
-	pass
+	ai.hover_move()
