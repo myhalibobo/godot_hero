@@ -88,6 +88,7 @@ ATTACK={
 2d_physics/layer_1="tilemap"
 2d_physics/layer_2="player"
 2d_physics/layer_3="monstor"
+2d_physics/layer_4="blood"
 
 [rendering]
 

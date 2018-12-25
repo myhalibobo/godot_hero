@@ -14,10 +14,10 @@ func shoot(_direction_vec):
 	
 
 func _on_gun3_bullet_body_entered(body):
-	if body.name == "head_body":
-		body.get_parent().reduce_body(hurt_value * 4)
-	else:
-		body.reduce_blood(hurt_value)
+#	if body.name == "head_body":
+#		body.get_parent().reduce_body(hurt_value * 4)
+#	else:
+#		body.reduce_blood(hurt_value)
 	queue_free()
 
 
