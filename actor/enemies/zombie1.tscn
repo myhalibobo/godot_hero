@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://actor/enemies/zombie1.gd" type="Script" id=1]
 [ext_resource path="res://actor/animations.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://actor/input_state_manage.tscn" type="PackedScene" id=12]
 [ext_resource path="res://actor/detect_info.gd" type="Script" id=13]
 [ext_resource path="res://actor/ai/ai_base.gd" type="Script" id=14]
+[ext_resource path="res://effects/splash_blood_effect.gd" type="Script" id=15]
 
 [sub_resource type="Animation" id=1]
 
@@ -374,6 +375,13 @@ radius = 44.1128
 [sub_resource type="CircleShape2D" id=7]
 
 
+[sub_resource type="ParticlesMaterial" id=8]
+
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
 [node name="zombie1" type="KinematicBody2D"]
 collision_layer = 4
 script = ExtResource( 1 )
@@ -548,4 +556,8 @@ position = Vector2( 0, -87.018 )
 polygon = PoolVector2Array( -10, -0.982002, 10, -0.982002, 10, 3.018, -10, 3.018 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
+process_material = SubResource( 8 )
+
+[node name="blood_effect" type="Node" parent="."]
+script = ExtResource( 15 )
 
