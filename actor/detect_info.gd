@@ -65,7 +65,9 @@ func is_right_collision_obstacles():
 		return false
 
 func is_face_to_enemy():
-	var vec = Vector2(1*actor.direction,0)
+	if not attacked_body:
+		return false
+	var vec = Vector2(actor.direction,0)
 	var vec2 = attacked_body.position - actor.position
 	var dot = vec.x * vec2.x + vec.y * vec.y
 	if dot > 0:

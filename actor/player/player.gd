@@ -21,7 +21,6 @@ func _input(event):
 		
 		hand.rotation = angle
 
-		
 		if angle > -PI/2 and angle < PI/2:
 #			scale.x = abs(scale.x) * 1 
 			pass

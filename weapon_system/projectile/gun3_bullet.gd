@@ -8,18 +8,23 @@ export (int) var hurt_value = 10
 
 var local_collision_pos
 
-func _ready():
-	pass # Replace with function body.
 
 func shoot(_direction_vec):
 	direction_vec = _direction_vec
 	apply_central_impulse(direction_vec * speed)
 
 func _on_gun3_bullet_body_entered(body):
-#	if body.name == "head_body":
-#		body.get_parent().reduce_body(hurt_value * 4)
-#	else:
-#		body.reduce_blood(hurt_value)
+	if body.name == "tilemap":
+		queue_free()
+		return
+	if body.name == "head_rigid":
+		body.get_parent().reduce_blood(hurt_value * 4)
+	elif body.name == "body_rigid":
+		body.get_parent().reduce_blood(hurt_value)
+	elif body.name == "hand_rigid":
+		body.get_parent().reduce_blood(hurt_value)
+	else:
+		body.reduce_blood(hurt_value)
 	queue_free()
 
 

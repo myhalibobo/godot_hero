@@ -10,7 +10,7 @@ extents = Vector2( 8.0381, 2.27769 )
 [node name="gun3_bullet" type="RigidBody2D"]
 position = Vector2( -0.0338659, 0.033865 )
 collision_layer = 8
-collision_mask = 5
+collision_mask = 17
 custom_integrator = true
 continuous_cd = 1
 contacts_reported = 1

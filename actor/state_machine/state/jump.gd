@@ -11,7 +11,7 @@ var small_move_x_flag = false #起跳碰到然后跳过障碍时候，降低velo
 var next_change_state
 
 func enter(actor):
-	in_air_speed = get_node("../walk").speed
+	in_air_speed = 500#get_node("../walk").speed
 	actor.velocity.y = -jump_height
 	actor.animations.play("jump")
 
@@ -44,7 +44,6 @@ func process(actor, delta):
 			actor.walk()
 		else:
 			actor.idle()
-	
 	
 	if not small_move_x_flag:
 		if actor.input_state_manage.is_action_pressed(actor.RIGHT):

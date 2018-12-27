@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://actor/input_state_manage.gd"
 }, {
 "base": "Node",
+"class": "PathFinderFast",
+"language": "GDScript",
+"path": "res://global/path_finder_fast.gd"
+}, {
+"base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://actor/state_machine/state_machine.gd"
@@ -44,6 +49,7 @@ _global_script_class_icons={
 "AiBase": "",
 "DetectInfo": "",
 "InputStateManage": "",
+"PathFinderFast": "",
 "StateMachine": "",
 "WeaponSystem": ""
 }
@@ -53,6 +59,10 @@ _global_script_class_icons={
 config/name="godot_hero"
 run/main_scene="res://game_scene.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+path_finder_fast="*res://global/path_finder_fast.gd"
 
 [display]
 
