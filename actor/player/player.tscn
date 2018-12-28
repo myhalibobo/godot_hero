@@ -1,19 +1,18 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://actor/player/player.gd" type="Script" id=1]
 [ext_resource path="res://actor/animations.gd" type="Script" id=2]
 [ext_resource path="res://body.png" type="Texture" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
-[ext_resource path="res://weapon_system/weapon/assets/gun2.png" type="Texture" id=5]
-[ext_resource path="res://actor/state_machine/state_machine.tscn" type="PackedScene" id=6]
-[ext_resource path="res://actor/state_machine/state/idle.gd" type="Script" id=7]
-[ext_resource path="res://actor/state_machine/state/walk.gd" type="Script" id=8]
-[ext_resource path="res://actor/state_machine/state/jump.gd" type="Script" id=9]
-[ext_resource path="res://actor/state_machine/state/fall.gd" type="Script" id=10]
-[ext_resource path="res://actor/state_machine/state/player_attack.gd" type="Script" id=11]
-[ext_resource path="res://actor/input_state_manage.tscn" type="PackedScene" id=12]
-[ext_resource path="res://weapon_system/weapon_system.tscn" type="PackedScene" id=13]
-[ext_resource path="res://weapon_system/weapon/gun2.tscn" type="PackedScene" id=14]
+[ext_resource path="res://actor/state_machine/state_machine.tscn" type="PackedScene" id=5]
+[ext_resource path="res://actor/state_machine/state/idle.gd" type="Script" id=6]
+[ext_resource path="res://actor/state_machine/state/walk.gd" type="Script" id=7]
+[ext_resource path="res://actor/state_machine/state/jump.gd" type="Script" id=8]
+[ext_resource path="res://actor/state_machine/state/fall.gd" type="Script" id=9]
+[ext_resource path="res://actor/state_machine/state/player_attack.gd" type="Script" id=10]
+[ext_resource path="res://actor/input_state_manage.tscn" type="PackedScene" id=11]
+[ext_resource path="res://weapon_system/weapon_system.tscn" type="PackedScene" id=12]
+[ext_resource path="res://weapon_system/weapon/gun2.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Animation" id=1]
 
@@ -418,18 +417,11 @@ texture = ExtResource( 3 )
 offset = Vector2( 0.331, 18.789 )
 
 [node name="hand1" type="Sprite" parent="animations"]
-editor/display_folded = true
 self_modulate = Color( 0.364706, 0.745098, 0.933333, 1 )
 position = Vector2( 0.149506, -134.631 )
 scale = Vector2( 1, 0.288889 )
 texture = ExtResource( 3 )
 offset = Vector2( 16.0618, -1.16199 )
-
-[node name="gun" type="Sprite" parent="animations/hand1"]
-visible = false
-position = Vector2( 63.482, -56.934 )
-scale = Vector2( 3.93359, 13.6163 )
-texture = ExtResource( 5 )
 
 [node name="body_shape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -43.03 )
@@ -439,30 +431,30 @@ shape = SubResource( 4 )
 position = Vector2( 0, -97.62 )
 shape = SubResource( 5 )
 
-[node name="state_machine" parent="." instance=ExtResource( 6 )]
+[node name="state_machine" parent="." instance=ExtResource( 5 )]
 actor = NodePath(".")
 
 [node name="idle" type="Node" parent="state_machine"]
-script = ExtResource( 7 )
+script = ExtResource( 6 )
 
 [node name="walk" type="Node" parent="state_machine"]
-script = ExtResource( 8 )
+script = ExtResource( 7 )
 speed = 550
 
 [node name="jump" type="Node" parent="state_machine"]
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 
 [node name="fall" type="Node" parent="state_machine"]
-script = ExtResource( 10 )
+script = ExtResource( 9 )
 
 [node name="attack" type="Node" parent="state_machine"]
-script = ExtResource( 11 )
+script = ExtResource( 10 )
 
-[node name="input_state_manage" parent="." instance=ExtResource( 12 )]
+[node name="input_state_manage" parent="." instance=ExtResource( 11 )]
 
-[node name="weapon_system" parent="." instance=ExtResource( 13 )]
+[node name="weapon_system" parent="." instance=ExtResource( 12 )]
 
-[node name="gun2" parent="weapon_system" instance=ExtResource( 14 )]
+[node name="gun2" parent="weapon_system" instance=ExtResource( 13 )]
 position = Vector2( 0.295128, -71.7483 )
 scale = Vector2( 2, 2 )
 

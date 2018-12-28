@@ -76,112 +76,7 @@ func check_consecutive_ground_num(start_pos,num):
 		return true
 	return false
 
-func wander_pathfinding(start_pos, character_width, character_height, max_character_jump_height, search_limit):
-	var arrive_pos_arr = []
-	var queue_arr = []
-	queue_arr.append(start_pos)
-	var count = 0
-#	print("search_limit:",search_limit)
-	var gird_weight_arr = []
-	for y in range(mGridY):
-		var arr = []
-		arr.resize(mGridX)
-		gird_weight_arr.append(arr)
-	gird_weight_arr[start_pos.y][start_pos.x] = 0
-	
-	while queue_arr.size() > 0:
-		print_winder_debug_info("----------------once---------------")
-		print_winder_debug_info(queue_arr)
-		var next_pos = queue_arr.pop_front()
-		print_winder_debug_info("pop: " + str(next_pos.x) + "," + str(next_pos.y))
-		
-		count = count + 1
-		if count > search_limit:
-			return arrive_pos_arr
-		
-		for i in range(4):
-			var new_pos = next_pos + dirction_arr[i]	
-			var is_arrive_pos = false
-			var is_on_ground = false 
-			var is_ceiling   = false
-			if next_pos.x == 5 and next_pos.y == 7:
-				print("")
-			#过滤边界
-			if new_pos.x < 0 or new_pos.x > mGridX - 1 or new_pos.y < 0 or new_pos.y > mGridY - 1: 
-				continue
-			#过滤障碍  
-			if mGrid[new_pos.y][new_pos.x] == 0:
-				continue
-			
-			if mGrid[new_pos.y + 1][new_pos.x] == 0:
-				is_on_ground = true
-			elif mGrid[new_pos.y - character_height][new_pos.x] == 0:
-				is_ceiling = true
-			
-			var origin_value = gird_weight_arr[next_pos.y][next_pos.x]
-			var jump_value = 0
-			if origin_value != null:
-				jump_value = origin_value
-#			gird_weight_arr[next_pos.y][next_pos.x] = jumpo
-			var new_jump_value = jump_value
-			#在天花板
-			if is_ceiling:
-				if new_pos.x != next_pos.x:#不在头顶方向
-					new_jump_value = max(max_character_jump_height * 2 + 1, jump_value + 1)
-				else:                             #头顶
-					new_jump_value = max_character_jump_height * 2
-			#在地上
-			elif is_on_ground:
-				new_jump_value = 0
-				is_arrive_pos = true
-			#上升
-			elif new_pos.y < next_pos.y:
-				if int(jump_value) % 2 == 0:
-					new_jump_value = jump_value + 2
-				else:
-					new_jump_value = jump_value + 1
-			#下降
-			elif new_pos.y > next_pos.y:
-				if int(jump_value) % 2 == 0:
-					new_jump_value = max(max_character_jump_height * 2, jump_value + 2)
-				else:
-					new_jump_value = max(max_character_jump_height * 2, jump_value + 1)
-			elif !is_on_ground && new_pos.x != next_pos.x:
-				new_jump_value = jump_value + 1
-			
-			#--------------------过滤节点--------------#
-			#跳转值大于0，且单数，过滤到左右位置
-			if jump_value >= 0 && int(jump_value) % 2 != 0 && next_pos.x != new_pos.x:
-				continue
-			#到达最大跳转值，过滤上面的位置
-			if jump_value >= max_character_jump_height * 2 && new_pos.y < next_pos.y:
-				continue
-			if new_jump_value >= max_character_jump_height * 2 + 6 && new_jump_value != jump_value && (new_jump_value - (max_character_jump_height * 2 + 6)) % 8 != 3:
-				continue
-			
-
-			var new_origin = gird_weight_arr[new_pos.y][new_pos.x]
-			if new_origin != null:
-				if new_jump_value < new_origin:
-					new_origin = new_jump_value
-					print_winder_debug_info("	@insert: " + str(new_pos.x) + "," + str(new_pos.y))
-					queue_arr.append(new_pos)
-			else:
-				gird_weight_arr[new_pos.y][new_pos.x] = new_jump_value
-				print_winder_debug_info("	@insert: " + str(new_pos.x) + "," + str(new_pos.y))
-				queue_arr.append(new_pos)
-			
-			if is_arrive_pos:
-				arrive_pos_arr.append(new_pos)
-				print_winder_debug_info("		ground: " + str(new_pos.x) + "," + str(new_pos.y))
-
-#func _sort_arrvie_pos_arr(queue_arr,new_pos,gird_weight_arr):
-#	var cur_value = gird_weight_arr[pos.y][pos.x]
-#	for pos in queue_arr:
-		
-		
-
-func find_path(start, end, characterWidth, characterHeight, maxCharacterJumpHeight, mSearchLimit = 2000):
+func find_path(start, end, characterWidth, characterHeight, maxCharacterJumpHeight, mSearchLimit = 100):
 	for i in range(mGridX * mGridY):
 		nodes[i]=[]
 	
@@ -189,8 +84,8 @@ func find_path(start, end, characterWidth, characterHeight, maxCharacterJumpHeig
 		return null
 	
 	mOpen.Clear()
-	print(start , end)
-	#init variables
+
+
 	var mFound              = false
 	var mStop               = false
 	var mStopped            = false

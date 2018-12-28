@@ -6,10 +6,13 @@ var gun_direction_vec
 var is_flap_x = true
 var emit_direction = 1
 onready var camera = $camera
+var ui
 
 func _ready():
+	HP = 100
 	hand = animations.get_animation_hand_node()
 	cur_weapon = weapon_system.get_cur_weapon()
+	ui = get_tree().get_root().get_node("game_scene").get_node("ui")
 	
 func _input(event):
 	if event is InputEventMouse:
@@ -30,4 +33,9 @@ func _input(event):
 
 func _process(delta):
 	cur_weapon.rotation = hand.rotation
+	
+func reduce_blood(value):
+	print(value)
+	.reduce_blood(value)
+	ui.hp_change(HP)
 	

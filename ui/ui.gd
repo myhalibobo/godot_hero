@@ -1,8 +1,7 @@
 extends CanvasLayer
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var zombie_num = 0
+onready var monster_num = $monster_num
 onready var hp_bar :TextureProgress= $hp_bar
 func _ready():
 	pass
@@ -12,5 +11,9 @@ func _process(delta):
 	$fps.text = str(frame)
 
 
-func _on_player_hp_change(value):
+func hp_change(value):
 	hp_bar.value = value
+
+func set_zombie_num(v):
+	zombie_num += v
+	monster_num.text = str(zombie_num)

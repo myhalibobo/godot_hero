@@ -8,7 +8,7 @@ var player
 var path_arr
 var next_coord
 var jumpTimer
-
+var ui 
 onready var free_timer = $free_timer
 
 func _ready():
@@ -18,6 +18,9 @@ func _ready():
 	jumpTimer.one_shot = true
 	jumpTimer.connect("timeout",self,"_on_jump_timer_timeout") 
 	add_child(jumpTimer)
+	
+	ui = get_tree().get_root().get_node("game_scene").get_node("ui")
+	ui.set_zombie_num(1)
 	
 func _process(delta):
 	animations.scale.x = abs(animations.scale.x) * direction
@@ -32,18 +35,22 @@ func _process(delta):
 			free_timer.stop()
 	if HP == 0:
 		dead()
+	if path_arr == null:
+		ai.hover_move()
 
 func dead():
+	ui.set_zombie_num(-1)
 	queue_free()
 	
 func reduce_blood(reduce_value):
 	.reduce_blood(reduce_value)
-	print(HP)
+
 
 func trace_move():
+	if not is_on_floor():
+		return
 	var start = world_tile_map.world_to_map(position + Vector2(0,-32))
 	var end_pos = get_end_pos(start)
-	print(start,end_pos)
 	var success = start_pathfinding_and_move(end_pos)
 	
 func get_end_pos(start):
@@ -81,8 +88,6 @@ func start_pathfinding_and_move(end_pos):
 		path_arr.append(start)
 		
 		var newArr = path_arr.duplicate(true)
-		
-		print("path_arr:",newArr.invert())
 		next_coord = path_arr.pop_back()
 		
 	return true
@@ -95,7 +100,6 @@ func _execute_trace():
 				pathfinding_end()
 				return
 			next_coord  = path_arr.pop_back()
-			print("pop:",next_coord)
 			var wait_time = calulate_pathfinding_timer_out_time(role_coord,next_coord)
 			return
 		if role_coord.x == next_coord.x and role_coord.y < next_coord.y and not is_on_floor():
@@ -217,6 +221,23 @@ func is_jump_collide_with_top_left_top_right():
 func _on_trace_timer_timeout():
 	trace_move()
 
-
 func _on_free_timer_timeout():
+	ui.set_zombie_num(-1)
 	queue_free()
+
+var attack_body
+func _on_attack_area_body_entered(body):
+	$attack_timer.stop()
+	attack_body = body
+	body.reduce_blood(10)
+	$attack_timer.wait_time = 1
+	$attack_timer.start()
+
+func _on_attack_area_body_exited(body):
+	attack_body = null
+	$attack_timer.stop()
+
+func _on_attack_timer_timeout():
+	if attack_body:
+		attack_body.reduce_blood(10)
+

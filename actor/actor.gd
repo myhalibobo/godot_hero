@@ -22,7 +22,7 @@ var FLOOR_NORMAL = Vector2(0, -1)
 var WALK_SPEEP
 var FALL_THRESHOLD = 100
 var HP = 100
-var is_activity = true
+var is_activity = false
 
 func _init_data():
 	pass
@@ -32,16 +32,13 @@ func _ready():
 	input_state_manage.set_state_machine(self,state_machine)
 	state_machine.set_actor(self)
 	state_machine.change_state("idle")
-	print(input_state_manage)
-	print(weapon_system)
-	print(input_state_manage)
+
 	
 func set_velocity(value):
 	velocity = value
 
 func set_direction(value):
 	direction = value
-	emit_signal("direction_changed", value)
 
 func _process(delta):
 	velocity.y += GRAVITY
