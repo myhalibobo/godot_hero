@@ -1,0 +1,104 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://produce_zombie_point.tscn" type="PackedScene" id=1]
+[ext_resource path="res://produce_zombie.gd" type="Script" id=2]
+
+[node name="point_node" type="Node2D"]
+editor/display_folded = true
+
+[node name="produce_zombie_point" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1870, 450 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point17" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1070, 465 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point3" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 3180, 625 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point5" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2685, 950 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point6" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2710, 1260 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point21" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2440, 640 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point7" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2605, 1730 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point24" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2125, 1520 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point16" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 4395, 2050 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point8" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 3980, 1410 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point19" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 5160, 620 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point18" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 4740, 1400 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point20" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 3670, 2130 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point9" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 5540, 1145 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point11" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 7030, 1470 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point23" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 7675, 785 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point12" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 8610, 1130 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point15" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 3935, 1890 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point14" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 6480, 450 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point13" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 6590, 190 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point10" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 5505, 636.4 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point4" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 4155, 690 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point2" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 3265, 200 )
+script = ExtResource( 2 )
+
+[node name="produce_zombie_point22" type="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 5845, 1595 )
+script = ExtResource( 2 )
+

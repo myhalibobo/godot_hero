@@ -240,6 +240,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0.331, 18.789 )
 
 [node name="state_machine" parent="." instance=ExtResource( 4 )]
+editor/display_folded = true
 actor = NodePath(".")
 
 [node name="idle" type="Node" parent="state_machine"]
@@ -251,7 +252,7 @@ speed = 300
 
 [node name="jump" type="Node" parent="state_machine"]
 script = ExtResource( 7 )
-jump_height = 1300
+jump_height = 1000
 
 [node name="fall" type="Node" parent="state_machine"]
 script = ExtResource( 8 )
@@ -311,7 +312,7 @@ actor_path = NodePath("..")
 
 [node name="body_rigid" type="RigidBody2D" parent="."]
 editor/display_folded = true
-position = Vector2( 0, -62 )
+position = Vector2( 0, -62.33 )
 collision_layer = 16
 collision_mask = 5
 custom_integrator = true
@@ -320,20 +321,21 @@ contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 13 )
 
+[node name="Sprite" type="Sprite" parent="body_rigid"]
+self_modulate = Color( 0.137255, 0.737255, 0.101961, 1 )
+scale = Vector2( 0.44, 1 )
+texture = ExtResource( 3 )
+
 [node name="body_shape" type="CollisionShape2D" parent="body_rigid"]
-position = Vector2( 0, 1.33 )
+position = Vector2( 0, -0.21 )
 shape = SubResource( 6 )
 
 [node name="neck_shape" type="CollisionShape2D" parent="body_rigid"]
 position = Vector2( 0, -22.57 )
 shape = SubResource( 7 )
 
-[node name="Sprite" type="Sprite" parent="body_rigid"]
-self_modulate = Color( 0.137255, 0.737255, 0.101961, 1 )
-scale = Vector2( 0.44, 1 )
-texture = ExtResource( 3 )
-
 [node name="head_rigid" type="RigidBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( 0.583977, -100 )
 collision_layer = 16
 collision_mask = 17
@@ -381,16 +383,17 @@ node_b = NodePath("../hand_rigid")
 disable_collision = false
 
 [node name="pinJoint_body" type="PinJoint2D" parent="."]
-position = Vector2( 0, -38.181 )
+position = Vector2( 0, -38.971 )
 node_a = NodePath("..")
 node_b = NodePath("../body_rigid")
 disable_collision = false
 
 [node name="head_shape" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0, -36 )
-polygon = PoolVector2Array( -10, -2, 10, -2, 10, 36, -10, 36 )
+polygon = PoolVector2Array( -12, -2, 12, -2, 12, 36, -12, 36 )
 
 [node name="blood_effect" type="Node2D" parent="."]
+editor/display_folded = true
 script = ExtResource( 15 )
 
 [node name="timer" type="Timer" parent="blood_effect"]
@@ -403,5 +406,8 @@ shape = SubResource( 10 )
 [node name="trace_timer" type="Timer" parent="."]
 autostart = true
 
+[node name="free_timer" type="Timer" parent="."]
+
 [connection signal="timeout" from="blood_effect/timer" to="blood_effect" method="_on_timer_timeout"]
 [connection signal="timeout" from="trace_timer" to="." method="_on_trace_timer_timeout"]
+[connection signal="timeout" from="free_timer" to="." method="_on_free_timer_timeout"]

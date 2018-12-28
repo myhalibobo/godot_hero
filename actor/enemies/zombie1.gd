@@ -8,7 +8,8 @@ var player
 var path_arr
 var next_coord
 var jumpTimer
-onready var trace_timer
+
+onready var free_timer = $free_timer
 
 func _ready():
 	world_tile_map = get_tree().get_root().get_node("game_scene").get_node("tilemap")
@@ -23,6 +24,12 @@ func _process(delta):
 	
 	_execute_trace()
 	
+	if is_activity == false:
+		if free_timer.is_stopped():
+			free_timer.start()
+	else:
+		if not free_timer.is_stopped():
+			free_timer.stop()
 	if HP == 0:
 		dead()
 
@@ -69,12 +76,15 @@ func start_pathfinding_and_move(end_pos):
 	start.y = floor(start.y / world_tile_map.scale.y)
 	if start == end_pos:
 		return false
-	path_arr = path_finder_fast.find_path(start,end_pos,1,2,2)
+	path_arr = path_finder_fast.find_path(start,end_pos,1,2,1)
 	if path_arr:
 		path_arr.append(start)
+		
 		var newArr = path_arr.duplicate(true)
-		newArr.invert()
+		
+		print("path_arr:",newArr.invert())
 		next_coord = path_arr.pop_back()
+		
 	return true
 	
 func _execute_trace():
@@ -85,7 +95,7 @@ func _execute_trace():
 				pathfinding_end()
 				return
 			next_coord  = path_arr.pop_back()
-
+			print("pop:",next_coord)
 			var wait_time = calulate_pathfinding_timer_out_time(role_coord,next_coord)
 			return
 		if role_coord.x == next_coord.x and role_coord.y < next_coord.y and not is_on_floor():
@@ -206,3 +216,7 @@ func is_jump_collide_with_top_left_top_right():
 
 func _on_trace_timer_timeout():
 	trace_move()
+
+
+func _on_free_timer_timeout():
+	queue_free()

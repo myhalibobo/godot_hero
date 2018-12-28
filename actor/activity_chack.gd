@@ -14,8 +14,9 @@ func _ready():
 
 
 func _on_activity_chack_body_entered(body):
-	pass # Replace with function body.
+	print(body.name)
+	body.is_activity = true
 
 
 func _on_activity_chack_body_exited(body):
-	body.queue_free()
+	body.is_activity = false

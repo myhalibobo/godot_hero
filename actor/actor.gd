@@ -22,6 +22,8 @@ var FLOOR_NORMAL = Vector2(0, -1)
 var WALK_SPEEP
 var FALL_THRESHOLD = 100
 var HP = 100
+var is_activity = true
+
 func _init_data():
 	pass
 

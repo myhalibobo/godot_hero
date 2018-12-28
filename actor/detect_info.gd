@@ -74,25 +74,6 @@ func is_face_to_enemy():
 		return true
 	return false
 
-func is_see_enemy_not_obstructe():
-	if not attacked_body:
-		return false
-	if not is_face_to_enemy():
-		return false
-	
-	if detect_with_direction(actor.direction):
-		return true
-	return false
-
-func detect_with_direction(direction):
-	rayc_check_enemy.cast_to = Vector2(see_radius * direction , 0)
-	rayc_check_enemy.force_raycast_update()
-	if rayc_check_enemy.is_colliding():
-		var collider = rayc_check_enemy.get_collider()
-		if collider.name == "player":
-			return true
-	return false
-
 func is_into_attack_range():
 	if not attacked_body:
 		return false
