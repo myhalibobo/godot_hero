@@ -13,6 +13,7 @@ func _ready():
 	hand = animations.get_animation_hand_node()
 	cur_weapon = weapon_system.get_cur_weapon()
 	ui = get_tree().get_root().get_node("game_scene").get_node("ui")
+#	world_tile_map = get_tree().get_root().get_node("game_scene").get_node("tilemap")
 	
 func _input(event):
 	if event is InputEventMouse:
@@ -35,7 +36,6 @@ func _process(delta):
 	cur_weapon.rotation = hand.rotation
 	
 func reduce_blood(value):
-	print(value)
 	.reduce_blood(value)
 	ui.hp_change(HP)
 	

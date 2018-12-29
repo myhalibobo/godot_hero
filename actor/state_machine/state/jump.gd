@@ -5,12 +5,13 @@ export (int) var max_jumps = 1
 export (float) var MAX_WALL_SPEED = 500
 
 onready var jumps = max_jumps setget set_jumps
-var in_air_speed = 400.0
+var in_air_speed = 800.0
 var is_released_jump = false
 var small_move_x_flag = false #起跳碰到然后跳过障碍时候，降低velocity.x的值，使角色看来自然一点
 var next_change_state
 
 func enter(actor):
+	print("@into jump@")
 	in_air_speed = 500#get_node("../walk").speed
 	actor.velocity.y = -jump_height
 	actor.animations.play("jump")

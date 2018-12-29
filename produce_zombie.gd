@@ -31,9 +31,9 @@ func _on_timer_timeout():
 		return
 	timer.wait_time = random_range(4,10)
 	timer.start()
-	var zombie = zombie1_tscn.instance()
-	zombie.position = position
-	zombie_node.add_child(zombie)
+#	var zombie = zombie1_tscn.instance()
+#	zombie.position = position
+#	zombie_node.add_child(zombie)
 	
 
 func _on_Arae_area_shape_entered(area_id, area, area_shape, self_shape):

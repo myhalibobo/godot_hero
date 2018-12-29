@@ -3,12 +3,14 @@ extends "../actor.gd"
 onready var ai :AiBase= $ai
 var local_collision_pos
 var blood_effect
-var world_tile_map
+var world_tile_map:TileMap
 var player
 var path_arr
 var next_coord
 var jumpTimer
-var ui 
+var ui
+var pre_map_coord
+
 onready var free_timer = $free_timer
 
 func _ready():
@@ -18,15 +20,14 @@ func _ready():
 	jumpTimer.one_shot = true
 	jumpTimer.connect("timeout",self,"_on_jump_timer_timeout") 
 	add_child(jumpTimer)
-	
+
 	ui = get_tree().get_root().get_node("game_scene").get_node("ui")
 	ui.set_zombie_num(1)
 	
 func _process(delta):
 	animations.scale.x = abs(animations.scale.x) * direction
-	
 	_execute_trace()
-	
+
 	if is_activity == false:
 		if free_timer.is_stopped():
 			free_timer.start()
@@ -45,22 +46,17 @@ func dead():
 func reduce_blood(reduce_value):
 	.reduce_blood(reduce_value)
 
-
 func trace_move():
 	if not is_on_floor():
 		return
+	print("寻路")
 	var start = world_tile_map.world_to_map(position + Vector2(0,-32))
 	var end_pos = get_end_pos(start)
 	var success = start_pathfinding_and_move(end_pos)
-	
+#	if success:
+#		path_arr = null
+		
 func get_end_pos(start):
-	var pos1 = world_tile_map.get_global_transform_with_canvas()[2]
-	var target = Vector2()
-	var p = position
-	var p1 = player.position
-#	target.x = player.position.x - pos1.x
-#	target.y = player.position.y - pos1.y
-	
 	var end = world_tile_map.world_to_map(player.position)
 	end.x = floor(end.x / world_tile_map.scale.x)
 	end.y = floor(end.y / world_tile_map.scale.y)
@@ -86,33 +82,35 @@ func start_pathfinding_and_move(end_pos):
 	path_arr = path_finder_fast.find_path(start,end_pos,1,2,1)
 	if path_arr:
 		path_arr.append(start)
-		
-		var newArr = path_arr.duplicate(true)
+		print("path:",path_arr)
 		next_coord = path_arr.pop_back()
-		
 	return true
 	
 func _execute_trace():
 	if path_arr != null:
 		var role_coord = _get_position_tile_map_coord()
+		if role_coord != pre_map_coord:
+			print("role:",role_coord)
+			pre_map_coord = role_coord
 		if is_reach_target(role_coord,next_coord):
 			if path_arr.size() == 0:
 				pathfinding_end()
 				return
 			next_coord  = path_arr.pop_back()
-			var wait_time = calulate_pathfinding_timer_out_time(role_coord,next_coord)
+			print("pop:",next_coord)
 			return
+			
 		if role_coord.x == next_coord.x and role_coord.y < next_coord.y and not is_on_floor():
 			for i in range(next_coord.y - role_coord.y):
 				if world_tile_map.get_cell(next_coord.x ,next_coord.y + i) != -1:
 					return false
 			send_key_input_event(LEFT,false)
 			send_key_input_event(RIGHT,false)
-			
+		#向左走
 		if role_coord.x > next_coord.x and not input_state_manage.is_action_pressed(LEFT) and is_on_floor():
 			send_key_input_event(LEFT,true)
 			send_key_input_event(RIGHT,false)
-
+		#想右走
 		if role_coord.x < next_coord.x and not input_state_manage.is_action_pressed(RIGHT)and is_on_floor():
 			send_key_input_event(RIGHT,true)
 			send_key_input_event(LEFT,false)
@@ -124,17 +122,32 @@ func _execute_trace():
 			if is_collide_with_down_right() and not input_state_manage.is_action_pressed(LEFT):
 				send_key_input_event(LEFT,true)
 				send_key_input_event(RIGHT,false)
-		
+
 		if role_coord.y > next_coord.y and not input_state_manage.is_action_pressed(JUMP):
 			if not is_jump_collide_with_top_left_top_right():
-				send_key_input_event(JUMP,true)
-				jumpTimer.wait_time = 0.4
-				jumpTimer.start()
-				
-		if input_state_manage.is_action_pressed(JUMP) and is_on_floor() and get_cur_state().name == "fall":
-			jumpTimer.stop()
-			_on_jump_timer_timeout()
+				var coord = world_tile_map.map_to_world(role_coord,true)
+				if jump_direction(role_coord,next_coord) == RIGHT:
+					if position.x >= coord.x + 32 and position.x <= coord.x + 64:
+						send_key_input_event(JUMP,true)
+						jumpTimer.wait_time = 0.4
+						jumpTimer.start()
+						print("--------jump:",role_coord,"	",next_coord)
+				else:
+					if position.x >= coord.x  and position.x <= coord.x + 32:
+						send_key_input_event(JUMP,true)
+						jumpTimer.wait_time = 0.4
+						jumpTimer.start()
+						print("--------jump:",role_coord,"	",next_coord)
+#		if input_state_manage.is_action_pressed(JUMP) and is_on_floor() and get_cur_state().name == "fall":
+#			jumpTimer.stop()
+#			_on_jump_timer_timeout()
 	pass
+
+func jump_direction(role_coord,next_coord):
+	if role_coord.x > next_coord.x:
+		return LEFT
+	else:
+		return RIGHT
 
 func world_to_map(p):
 	var c = world_tile_map.world_to_map(p)

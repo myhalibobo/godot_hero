@@ -2,7 +2,8 @@ extends RigidBody2D
 
 var local_collision_pos
 #
-#func _ready():
+func _ready():
+	angular_damp = 0.8
 #	connect("body_entered",self,"_on_body_rigid_body_entered")
 
 #func _integrate_forces(state):
