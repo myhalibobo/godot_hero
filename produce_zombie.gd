@@ -6,12 +6,12 @@ onready var timer = $timer
 var is_can_create = true
 var projectResolution
 var player
+var MAX_ZEMBIE = 10
 
 func random_range(a,b):
 	return randi() % b + a
 	
 func _ready():
-	zombie1_tscn = preload("res://actor/enemies/zombie1.tscn")
 	zombie_node = get_tree().get_root().get_node("game_scene").get_node("zombie_node")
 	player = get_tree().get_root().get_node("game_scene").get_node("player")
 	projectResolution = get_viewport_rect().size
@@ -26,16 +26,22 @@ func _is_in_screem():
 	return true
 	
 func _on_timer_timeout():
-	if not is_can_create or  _is_in_screem():
-		timer.wait_time = random_range(4,10)
+#	if not is_can_create or  _is_in_screem():
+	if not is_can_create:
+		reset_timer()
 		return
-	timer.wait_time = random_range(4,10)
-	timer.start()
-#	var zombie = zombie1_tscn.instance()
-#	zombie.position = position
-#	zombie_node.add_child(zombie)
-	
 
+	reset_timer()
+	add_create_zombie_queue()
+
+func reset_timer():
+	timer.stop()
+	timer.wait_time = random_range(5,10)
+	timer.start()
+
+func add_create_zombie_queue():
+	zombie_node.queue_zombie_postion.append(position)
+	
 func _on_Arae_area_shape_entered(area_id, area, area_shape, self_shape):
 	is_can_create = true
 

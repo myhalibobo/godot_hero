@@ -28,7 +28,7 @@ func _on_timer_timeout():
 	ins.position = Vector2(origin_position.x + x,origin_position.y+y)
 	ins.gravity_scale = 10
 	ins.apply_central_impulse(direction*rand_range(100,200))
-	if count == 15:
+	if count == 10:
 		timer.stop()
 		queue_free()
 

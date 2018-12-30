@@ -8,10 +8,14 @@ var player
 var path_arr
 var next_coord
 var jumpTimer
-var ui
 var pre_map_coord
-
+var zombie_node
 onready var free_timer = $free_timer
+onready var timer_dead_delay = $timer_dead_delay
+
+var delay_action
+var ui
+var is_dead = false
 
 func _ready():
 	world_tile_map = get_tree().get_root().get_node("game_scene").get_node("tilemap")
@@ -20,14 +24,33 @@ func _ready():
 	jumpTimer.one_shot = true
 	jumpTimer.connect("timeout",self,"_on_jump_timer_timeout") 
 	add_child(jumpTimer)
-
+	zombie_node = get_tree().get_root().get_node("game_scene").get_node("zombie_node")
 	ui = get_tree().get_root().get_node("game_scene").get_node("ui")
-	ui.set_zombie_num(1)
-	
+
+func set_rigidbody(rigid):
+	print(rigid.name)
+	rigid.mass = 100.0
+	rigid.gravity_scale = 100.0
+	rigid.friction = 0.5
+	rigid.linear_damp = 0.1
+
 func _process(delta):
+	if is_dead:
+		if timer_dead_delay.is_stopped():
+			timer_dead_delay.start()
+			remove_child($pinJoint_body)
+			remove_child($pinJoint_hand)
+			remove_child($pinJoint_head)
+			remove_child($animations)
+			set_rigidbody($body_rigid)
+			set_rigidbody($head_rigid)
+			set_rigidbody($hand_rigid)
+		set_process(false)
+		return
+		
 	animations.scale.x = abs(animations.scale.x) * direction
 	_execute_trace()
-
+	
 	if is_activity == false:
 		if free_timer.is_stopped():
 			free_timer.start()
@@ -40,11 +63,15 @@ func _process(delta):
 		ai.hover_move()
 
 func dead():
-	ui.set_zombie_num(-1)
-	queue_free()
+	if HP == 0:
+		ui.add_kill_num()
+		is_dead = true
+
 	
 func reduce_blood(reduce_value):
 	.reduce_blood(reduce_value)
+
+		
 
 func trace_move():
 	if not is_on_floor():
@@ -55,7 +82,14 @@ func trace_move():
 	var success = start_pathfinding_and_move(end_pos)
 #	if success:
 #		path_arr = null
-		
+
+func check_coord_has_zombie(next_coord):
+	for child in zombie_node.get_children():
+		var coord = world_tile_map.world_to_map(child.position + Vector2(0,-32))
+		if coord == next_coord:
+			return true
+		return false
+	
 func get_end_pos(start):
 	var end = world_tile_map.world_to_map(player.position)
 	end.x = floor(end.x / world_tile_map.scale.x)
@@ -99,7 +133,14 @@ func _execute_trace():
 			next_coord  = path_arr.pop_back()
 			print("pop:",next_coord)
 			return
-			
+		if check_coord_has_zombie(next_coord):
+				$timer_delay_action.wait_time = 1
+				$timer_delay_action.stop()
+				$timer_delay_action.start()
+				delay_action = true
+				return
+		if delay_action:
+			return
 		if role_coord.x == next_coord.x and role_coord.y < next_coord.y and not is_on_floor():
 			for i in range(next_coord.y - role_coord.y):
 				if world_tile_map.get_cell(next_coord.x ,next_coord.y + i) != -1:
@@ -129,18 +170,11 @@ func _execute_trace():
 				if jump_direction(role_coord,next_coord) == RIGHT:
 					if position.x >= coord.x + 32 and position.x <= coord.x + 64:
 						send_key_input_event(JUMP,true)
-						jumpTimer.wait_time = 0.4
-						jumpTimer.start()
-						print("--------jump:",role_coord,"	",next_coord)
+						send_key_input_event(JUMP,false)
 				else:
 					if position.x >= coord.x  and position.x <= coord.x + 32:
 						send_key_input_event(JUMP,true)
-						jumpTimer.wait_time = 0.4
-						jumpTimer.start()
-						print("--------jump:",role_coord,"	",next_coord)
-#		if input_state_manage.is_action_pressed(JUMP) and is_on_floor() and get_cur_state().name == "fall":
-#			jumpTimer.stop()
-#			_on_jump_timer_timeout()
+						send_key_input_event(JUMP,false)
 	pass
 
 func jump_direction(role_coord,next_coord):
@@ -235,7 +269,6 @@ func _on_trace_timer_timeout():
 	trace_move()
 
 func _on_free_timer_timeout():
-	ui.set_zombie_num(-1)
 	queue_free()
 
 var attack_body
@@ -254,3 +287,9 @@ func _on_attack_timer_timeout():
 	if attack_body:
 		attack_body.reduce_blood(10)
 
+func _on_timer_delay_action_timeout():
+	delay_action = false
+
+
+func _on_timer_dead_delay_timeout():
+	queue_free()

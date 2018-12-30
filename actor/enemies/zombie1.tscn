@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://actor/enemies/zombie1.gd" type="Script" id=1]
 [ext_resource path="res://actor/animations.gd" type="Script" id=2]
@@ -196,9 +196,13 @@ extents = Vector2( 20, 4 )
 
 [sub_resource type="RectangleShape2D" id=8]
 
-extents = Vector2( 13.1299, 19.11 )
+extents = Vector2( 12, 10 )
 
 [sub_resource type="RectangleShape2D" id=9]
+
+extents = Vector2( 13.416, 54 )
+
+[sub_resource type="RectangleShape2D" id=10]
 
 extents = Vector2( 19.416, 50 )
 
@@ -208,6 +212,7 @@ collision_mask = 5
 script = ExtResource( 1 )
 
 [node name="animations" type="Node2D" parent="."]
+editor/display_folded = true
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 2 )
 actor_path = NodePath("")
@@ -234,6 +239,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0.331, 18.789 )
 
 [node name="state_machine" parent="." instance=ExtResource( 4 )]
+editor/display_folded = true
 actor = NodePath(".")
 
 [node name="idle" type="Node" parent="state_machine"]
@@ -244,7 +250,7 @@ script = ExtResource( 6 )
 
 [node name="jump" type="Node" parent="state_machine"]
 script = ExtResource( 7 )
-jump_height = 1000
+jump_height = 1200
 
 [node name="fall" type="Node" parent="state_machine"]
 script = ExtResource( 8 )
@@ -288,7 +294,7 @@ actor_path = NodePath("..")
 editor/display_folded = true
 position = Vector2( 0, -62.33 )
 collision_layer = 16
-collision_mask = 5
+collision_mask = 65
 custom_integrator = true
 continuous_cd = 2
 script = ExtResource( 13 )
@@ -309,7 +315,7 @@ shape = SubResource( 5 )
 [node name="head_rigid" type="RigidBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 0.584, -99.48 )
-collision_layer = 16
+collision_layer = 64
 collision_mask = 17
 custom_integrator = true
 continuous_cd = 2
@@ -329,7 +335,8 @@ shape = SubResource( 6 )
 editor/display_folded = true
 position = Vector2( 20, -72 )
 collision_layer = 0
-collision_mask = 5
+collision_mask = 0
+custom_integrator = true
 continuous_cd = 2
 script = ExtResource( 13 )
 
@@ -340,6 +347,15 @@ shape = SubResource( 7 )
 self_modulate = Color( 0.219608, 0.447059, 0.168627, 1 )
 scale = Vector2( 1, 0.17 )
 texture = ExtResource( 3 )
+
+[node name="fix_rigid" type="KinematicBody2D" parent="."]
+editor/display_folded = true
+collision_layer = 256
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fix_rigid"]
+position = Vector2( 0, -28 )
+shape = SubResource( 8 )
 
 [node name="pinJoint_head" type="PinJoint2D" parent="."]
 position = Vector2( 0, -86 )
@@ -354,19 +370,20 @@ node_b = NodePath("../hand_rigid")
 disable_collision = false
 
 [node name="pinJoint_body" type="PinJoint2D" parent="."]
-position = Vector2( 0, -36 )
-node_a = NodePath("..")
+position = Vector2( 0, -38 )
+node_a = NodePath("../fix_rigid")
 node_b = NodePath("../body_rigid")
 disable_collision = false
 
 [node name="body_shape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -19.48 )
-shape = SubResource( 8 )
+position = Vector2( 0.584, -54 )
+shape = SubResource( 9 )
 
 [node name="trace_timer" type="Timer" parent="."]
 autostart = true
 
 [node name="free_timer" type="Timer" parent="."]
+wait_time = 5.0
 
 [node name="attack_area" type="Area2D" parent="."]
 editor/display_folded = true
@@ -376,12 +393,19 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area"]
 position = Vector2( 0.583977, -54 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 
 [node name="attack_timer" type="Timer" parent="."]
+
+[node name="timer_delay_action" type="Timer" parent="."]
+
+[node name="timer_dead_delay" type="Timer" parent="."]
+wait_time = 10.0
 
 [connection signal="timeout" from="trace_timer" to="." method="_on_trace_timer_timeout"]
 [connection signal="timeout" from="free_timer" to="." method="_on_free_timer_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="attack_timer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="timer_delay_action" to="." method="_on_timer_delay_action_timeout"]
+[connection signal="timeout" from="timer_dead_delay" to="." method="_on_timer_dead_delay_timeout"]

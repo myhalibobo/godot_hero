@@ -5,8 +5,9 @@ var cur_weapon
 var gun_direction_vec
 var is_flap_x = true
 var emit_direction = 1
-onready var camera = $camera
 var ui
+onready var weapon_system :WeaponSystem = $weapon_system
+
 
 func _ready():
 	HP = 100
@@ -34,8 +35,14 @@ func _input(event):
 
 func _process(delta):
 	cur_weapon.rotation = hand.rotation
+	if HP == 0:
+		set_process(false)
+		set_process_input(false)
+		ui.add_child(preload("res://game_end.tscn").instance())
+		ui.kill_num_str = "0"
 	
 func reduce_blood(value):
 	.reduce_blood(value)
 	ui.hp_change(HP)
+
 	

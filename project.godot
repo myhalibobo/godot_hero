@@ -99,10 +99,13 @@ ATTACK={
 2d_physics/layer_2="player"
 2d_physics/layer_3="monstor"
 2d_physics/layer_4="blood"
-2d_physics/layer_5="rigidbody2d"
+2d_physics/layer_5="rigidbody"
 2d_physics/layer_6="activity_check"
+2d_physics/layer_7="rigidhead"
+2d_physics/layer_8="rigidleg"
+2d_physics/layer_9="distance"
+2d_physics/layer_10="product"
 
 [rendering]
 
-quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"

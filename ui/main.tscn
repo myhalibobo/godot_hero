@@ -1,11 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ui/ui.gd" type="Script" id=1]
 [ext_resource path="res://ui/osb_left.png" type="Texture" id=2]
 [ext_resource path="res://ui/osb_right.png" type="Texture" id=3]
 [ext_resource path="res://ui/osb_fire.png" type="Texture" id=4]
 [ext_resource path="res://ui/osb_jump.png" type="Texture" id=5]
-[ext_resource path="res://ui/hp_bar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://font/GameFont.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://ui/hp_bar.tscn" type="PackedScene" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+
+font_data = ExtResource( 6 )
 
 [node name="ui" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -63,6 +68,22 @@ normal = ExtResource( 5 )
 pressed = ExtResource( 5 )
 action = "roll"
 
+[node name="Label" type="Label" parent="."]
+margin_left = 308.873
+margin_top = 6.56871
+margin_right = 348.873
+margin_bottom = 20.5687
+custom_fonts/font = SubResource( 1 )
+text = "击杀："
+
+[node name="kill_num" type="Label" parent="."]
+margin_left = 353.986
+margin_top = 6.56872
+margin_right = 401.986
+margin_bottom = 29.5687
+custom_fonts/font = SubResource( 1 )
+text = "0"
+
 [node name="fps" type="Label" parent="."]
 margin_left = 5.0267
 margin_top = 45.0471
@@ -92,7 +113,7 @@ space jump"
 align = 1
 valign = 1
 
-[node name="hp_bar" parent="." instance=ExtResource( 6 )]
+[node name="hp_bar" parent="." instance=ExtResource( 7 )]
 margin_left = 2.56672
 margin_top = 1.02669
 margin_right = 293.567

@@ -4,12 +4,14 @@ export (NodePath) var actor_path
 var actor
 
 onready var animation_action :AnimationPlayer = $animation_action
-onready var hand1 :Sprite = $hand1
+var hand1 
 
 signal animation_action_finished
 signal animation_attack_frame
 
 func _ready():
+	if has_node("hand1"):
+		hand1 = get_node("hand1")
 	actor = get_node(actor_path)
 
 func play(name="" , custom_blend=-1, custom_speed=1.0, from_end=false):

@@ -11,7 +11,6 @@ var small_move_x_flag = false #起跳碰到然后跳过障碍时候，降低velo
 var next_change_state
 
 func enter(actor):
-	print("@into jump@")
 	in_air_speed = 500#get_node("../walk").speed
 	actor.velocity.y = -jump_height
 	actor.animations.play("jump")

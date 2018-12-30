@@ -1,7 +1,5 @@
 extends Node
 class_name PathFinderFast
-var priority_queue = load("res://global/priority_queue.gd")
-
 class Location:
 	var xy
 	var z
@@ -9,7 +7,7 @@ class Location:
 	func _init(_xy , _z):
 		xy = _xy
 		z  = _z
-
+var priority_queue = preload("res://global/priority_queue.gd")
 class PathFinderNodeFast:
 	var F
 	var G
@@ -143,13 +141,11 @@ func find_path(start, end, characterWidth, characterHeight, maxCharacterJumpHeig
 		count = count + 1
 #		print("parent:" + "(" +str(mLocationX) + "," + str(mLocationY) + ")")
 		for i in range(4):
-			#坐标
 			mNewLocationX = mLocationX + mDirection[i][0]
 			mNewLocationY = mLocationY + mDirection[i][1]
 			print_debug_info("child:" + "(" +str(mNewLocationX) + "," + str(mNewLocationY) + ")")
 			if mNewLocationX == 17 and mNewLocationY == 6:
 				print("")
-			#索引
 			mNewLocation  = mNewLocationY * mGridX + mNewLocationX
 
 			var onGround = false #地上标志

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://game_end.gd" type="Script" id=1]
+[ext_resource path="res://font/GameFont.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 27
+font_data = ExtResource( 2 )
+
+[node name="game_end" type="Panel"]
+self_modulate = Color( 1, 1, 1, 0.54902 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 543.0
+margin_top = 290.0
+margin_right = 747.0
+margin_bottom = 359.0
+custom_fonts/font = SubResource( 1 )
+text = "重新开始"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

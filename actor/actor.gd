@@ -7,7 +7,6 @@ var velocity = Vector2(0, 0) setget set_velocity
 export (bool) var is_role = false
 onready var state_machine :StateMachine= $state_machine
 onready var input_state_manage :InputStateManage= $input_state_manage
-onready var weapon_system :WeaponSystem = $weapon_system
 onready var detect_info = $detect_info
 onready var animations = $animations
 
