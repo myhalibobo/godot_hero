@@ -12,7 +12,7 @@ var pre_map_coord
 var zombie_node
 onready var free_timer = $free_timer
 onready var timer_dead_delay = $timer_dead_delay
-
+var block_node 
 var delay_action
 var ui
 var is_dead = false
@@ -26,9 +26,9 @@ func _ready():
 	add_child(jumpTimer)
 	zombie_node = get_tree().get_root().get_node("game_scene").get_node("zombie_node")
 	ui = get_tree().get_root().get_node("game_scene").get_node("ui")
+	block_node = get_tree().get_root().get_node("game_scene").get_node("block_node")
 
 func set_rigidbody(rigid):
-	print(rigid.name)
 	rigid.mass = 100.0
 	rigid.gravity_scale = 100.0
 	rigid.friction = 0.5
@@ -36,15 +36,25 @@ func set_rigidbody(rigid):
 
 func _process(delta):
 	if is_dead:
-		if timer_dead_delay.is_stopped():
-			timer_dead_delay.start()
-			remove_child($pinJoint_body)
-			remove_child($pinJoint_hand)
-			remove_child($pinJoint_head)
-			remove_child($animations)
-			set_rigidbody($body_rigid)
-			set_rigidbody($head_rigid)
-			set_rigidbody($hand_rigid)
+		queue_free()
+#		if timer_dead_delay.is_stopped():
+#			timer_dead_delay.start()
+#
+#			var body_rigid = $body_rigid
+#			var head_rigid = $head_rigid
+#			var hand_rigid = $hand_rigid
+#
+#			body_rigid.position = to_global(body_rigid.position)
+#			head_rigid.position = to_global(head_rigid.position)
+#			hand_rigid.position = to_global(hand_rigid.position)
+#
+#
+#			block_node.add_child(body_rigid)
+#			block_node.add_child(head_rigid)
+#			block_node.add_child(hand_rigid)
+#			set_rigidbody(body_rigid)
+#			set_rigidbody(head_rigid)
+#			set_rigidbody(hand_rigid)
 		set_process(false)
 		return
 		

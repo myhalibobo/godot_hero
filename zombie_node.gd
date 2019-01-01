@@ -20,7 +20,7 @@ func create_zombie():
 	if get_child_count() > MAX_ZEMBIE or queue_zombie_postion.size()==0:
 		return
 #	print("create zombie ........")
-#	var tar_position = queue_zombie_postion.pop_back()
-#	var zombie = zombie1_tscn.instance()
-#	zombie.position = tar_position
-#	add_child(zombie)
+	var tar_position = queue_zombie_postion.pop_back()
+	var zombie = zombie1_tscn.instance()
+	zombie.position = tar_position
+	add_child(zombie)

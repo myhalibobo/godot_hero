@@ -1,0 +1,196 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://test/zombie.gd" type="Script" id=1]
+[ext_resource path="res://body.png" type="Texture" id=2]
+
+[sub_resource type="CapsuleShape2D" id=5]
+
+radius = 12.7104
+height = 82.6361
+
+[sub_resource type="Animation" id=2]
+
+resource_name = "idle"
+length = 0.5
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("leg1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("leg2:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "jump"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("leg2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.149506, -85 ), Vector2( 0.149506, -85 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("leg2:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -9.53674e-006, -30.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("leg1:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.90735e-006, -85.0204 ), Vector2( 1.90735e-006, -85.0204 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("leg1:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 9.53674e-006, 30.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "walk"
+length = 0.8
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("leg2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.599952 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.149506, -85 ), Vector2( 0.149506, -85 ), Vector2( 0.149506, -85 ), Vector2( 0.149506, -85 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("leg2:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.599952 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -9.53674e-006, 30.0, -9.53674e-006, -30.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("leg1:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.599952 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.90735e-006, -85.0204 ), Vector2( 1.90735e-006, -85.0204 ), Vector2( 1.90735e-006, -85.0204 ), Vector2( 1.90735e-006, -85.0204 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("leg1:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.599952 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 9.53674e-006, -30.0, 9.53674e-006, 30.0 ]
+}
+
+[node name="zombie" type="RigidBody2D"]
+script = ExtResource( 1 )
+
+[node name="body_shape" type="CollisionShape2D" parent="."]
+position = Vector2( 0.584, -54 )
+shape = SubResource( 5 )
+
+[node name="animation_action" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 2 )
+anims/jump = SubResource( 3 )
+anims/walk = SubResource( 4 )
+
+[node name="leg1" type="Sprite" parent="."]
+self_modulate = Color( 0.207843, 0.690196, 0.0901961, 1 )
+position = Vector2( 0, -41.469 )
+rotation = 1.66448e-007
+scale = Vector2( 0.24271, 0.989921 )
+texture = ExtResource( 2 )
+offset = Vector2( -0.157, 18.852 )
+
+[node name="leg2" type="Sprite" parent="."]
+self_modulate = Color( 0.207843, 0.690196, 0.0901961, 1 )
+position = Vector2( 0, -42.652 )
+rotation = -1.66448e-007
+scale = Vector2( 0.247077, 1.02783 )
+texture = ExtResource( 2 )
+offset = Vector2( 0.331, 18.789 )
+
+[node name="pinJoint_body" type="PinJoint2D" parent="."]
+position = Vector2( 0, -38 )
+node_a = NodePath("../fix_rigid")
+node_b = NodePath("../body_rigid")
+disable_collision = false
+
+[node name="pinJoint_hand" type="PinJoint2D" parent="."]
+position = Vector2( 0, -72 )
+node_a = NodePath("../body_rigid")
+node_b = NodePath("../hand_rigid")
+disable_collision = false
+
+[node name="pinJoint_head" type="PinJoint2D" parent="."]
+position = Vector2( 0, -86 )
+node_a = NodePath("../body_rigid")
+node_b = NodePath("../head_rigid")
+disable_collision = false
+

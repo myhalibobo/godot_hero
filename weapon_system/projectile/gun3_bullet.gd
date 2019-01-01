@@ -19,7 +19,7 @@ func _on_gun3_bullet_body_entered(body):
 		return
 	if body.name == "head_rigid":
 		body.get_parent().reduce_blood(hurt_value * 4)
-	elif body.name == "body_rigid":
+	elif body.name == "body_rigid": 
 		body.get_parent().reduce_blood(hurt_value)
 	elif body.name == "hand_rigid":
 		body.get_parent().reduce_blood(hurt_value)
